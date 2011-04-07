@@ -28,7 +28,7 @@ var snipescroll = {
 			snipescroll.scroll(event);
 		}
 	},
-	
+
 	isScrollable: function(event){
 		//Application.console.log("event.detail " + event.detail + ",event.target " + event.target + ",event.currentTarget " + event.currentTarget);
 		//Application.console.log("event.clientX " + event.clientX + ", event.pageX " + event.pageX + ",event.layerX " + event.layerX + ",event.screenX " + event.screenX);
@@ -43,6 +43,26 @@ var snipescroll = {
 		var clickMode = prefs.getIntPref("clickmode");
 		if( (clickMode == 1 && event.button == 1 && event.detail == 1) || //middle click
 		    (clickMode == 2 && event.button == 2 && event.detail == 2) ){ //double right click
+
+			if(clickMode == 1){
+				//<a> don't work
+				var aTag = event.target.ownerDocument.evaluate(
+						'ancestor-or-self::*[local-name()="a"][1]',
+						event.originalTarget,
+						null,
+						XPathResult.FIRST_ORDERED_NODE_TYPE,
+						null
+					  ).singleNodeValue;
+				if (aTag){
+					return false;
+				}
+				//input area don't work
+				var ot = event.explicitOriginalTarget;
+				if (ot.nodeName.toLowerCase()=="input" || ot.nodeName.toLowerCase()=="select" || 
+					ot.nodeName.toLowerCase()=="option") {
+					return false;
+				}
+			}
 
 			var t = event.target;
 			if((!(t instanceof XULElement)) && (t instanceof HTMLElement || t instanceof Element)){
