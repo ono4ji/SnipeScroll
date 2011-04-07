@@ -1,0 +1,6 @@
+<!ENTITY prefwindow.title "SnipeScroll 設定">
+<!ENTITY panesnipescroll.title "SnipeScroll 設定">
+<!ENTITY topspan.label "スクロール時の上部までの間隔(px) (default:15)">
+<!ENTITY clickmode.label "スクロールのトリガー">
+<!ENTITY middleclick.label "中クリック">
+<!ENTITY drightclick.label "右ダブルクリック">

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://snipescroll/skin/overlay.css" type="text/css"?>
+<!DOCTYPE overlay SYSTEM "chrome://snipescroll/locale/overlay.dtd">
+<overlay id="snipescroll-overlay" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+  <script src="overlay.js"/>
+
+  <toolbarpalette id="BrowserToolbarPalette">
+    <toolbarbutton id="snipescroll-toolbar-button" class="toolbarbutton-1 chromeclass-toolbar-additional"
+      label="&snipescrollToolbarButton.label;" tooltiptext="&snipescrollToolbarButton.tooltip;"
+      onload="snipescroll.initToolbarButton()" oncommand="snipescroll.onToolbarButtonCommand()"/>
+  </toolbarpalette>
+
+<popupset>
+  <panel id="snipescroll-arrow" style="border: 0px; background-color: transparent;" >
+    <image id="snipescroll-arrow-image" src="chrome://snipescroll/skin/arrow.png" />
+  </panel>
+</popupset>
+
+</overlay>

@@ -1,0 +1,35 @@
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+
+#snipescroll-toolbar-button
+{
+  list-style-image: url("chrome://snipescroll/skin/toolbar-button.png");
+  -moz-image-region: rect(0px 24px 24px 0px);
+}
+#snipescroll-toolbar-button:hover
+{
+  -moz-image-region: rect(24px 24px 48px  0px);
+}
+[iconsize="small"] #snipescroll-toolbar-button
+{
+  -moz-image-region: rect( 0px 40px 16px 24px);
+}
+[iconsize="small"] #snipescroll-toolbar-button:hover
+{
+  -moz-image-region: rect(24px 40px 40px 24px);
+}
+#snipescroll-toolbar-button[snipescrollOn="false"]
+{
+  -moz-image-region: rect(0px 64px 24px 40px);
+}
+#snipescroll-toolbar-button[snipescrollOn="false"]:hover
+{
+  -moz-image-region: rect(24px 64px 48px  40px);
+}
+[iconsize="small"] #snipescroll-toolbar-button[snipescrollOn="false"]
+{
+  -moz-image-region: rect( 0px 80px 16px 64px);
+}
+[iconsize="small"] #snipescroll-toolbar-button[snipescrollOn="false"]:hover
+{
+  -moz-image-region: rect(24px 80px 40px 64px);
+}

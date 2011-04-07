@@ -1,0 +1,6 @@
+<!ENTITY prefwindow.title "SnipeScroll preferences">
+<!ENTITY panesnipescroll.title "SnipeScroll preferences">
+<!ENTITY topspan.label "Span to top(px) (default:15)">
+<!ENTITY clickmode.label "Trigger to scroll">
+<!ENTITY middleclick.label "Middle-Click">
+<!ENTITY drightclick.label "Double-Right-Click">

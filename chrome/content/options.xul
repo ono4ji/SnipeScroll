@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<!DOCTYPE prefwindow SYSTEM "chrome://snipescroll/locale/options.dtd">
+<prefwindow id="snipescroll-preferences" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" title="&prefwindow.title;">
+  <prefpane id="panesnipescroll" label="&panesnipescroll.title;">
+    <preferences>
+      <preference id="topspan" name="extensions.snipescroll.topspan" type="int"/>
+      <preference id="clickmode" name="extensions.snipescroll.clickmode" type="int"/>
+    </preferences>
+    <vbox>
+      <hbox align="center">
+        <label control="texttopspan">&topspan.label;</label>
+        <textbox id="texttopspan" preference="topspan" type="number" max="999" min="0" size="3" />
+      </hbox>
+      <groupbox>
+        <caption label="&clickmode.label;"/>
+        <radiogroup id="radioclickmode" preference="clickmode">
+          <radio id="middle" label="&middleclick.label;" value="1"/>
+          <radio id="dright" label="&drightclick.label;" value="2"/>
+        </radiogroup>
+      </groupbox>
+    </vbox>
+  </prefpane>
+</prefwindow>

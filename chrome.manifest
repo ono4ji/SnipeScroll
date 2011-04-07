@@ -1,0 +1,9 @@
+content   snipescroll                 chrome/content/
+skin      snipescroll   classic/1.0   chrome/skin/
+locale    snipescroll   en-US         chrome/locale/en-US/
+locale    snipescroll   ja-JP         chrome/locale/ja-JP/
+
+overlay   chrome://browser/content/browser.xul   chrome://snipescroll/content/overlay.xul
+style chrome://global/content/customizeToolbar.xul chrome://snipescroll/skin/overlay.css
+
+resource snipescroll-modules modules/
