@@ -1,3 +1,5 @@
+if( "undefined" == typeof(snipescroll) ){
+
 var snipescroll = {
 	initToolbarButton: function(){
 		var cu = document.getElementById("snipescroll-toolbar-button");
@@ -154,3 +156,4 @@ var snipescroll = {
 };
 
 document.addEventListener("mouseup", snipescroll.onclick, false);
+}
