@@ -128,8 +128,9 @@ Timer.prototype = {
 
 		if (typeof this.callback == 'function')
 			this.callback();
-		else
-			evalInSandbox(this.callback);
+		//remove eval
+		//else
+		//	evalInSandbox(this.callback);
 
 		if (this.type == Ci.nsITimer.TYPE_ONE_SHOT)
 			this.cancel();
@@ -153,13 +154,13 @@ Timer.cancelAll = function(aId) {
 Timer.getInstanceById = function(aId) {
 	return this.instances[aId] || null ;
 };
-
+/*
 function evalInSandbox(aCode, aSandboxOwner)
 {
 	var sandbox = new Components.utils.Sandbox(aSandboxOwner || 'about:blank');
 	return Components.utils.evalInSandbox(aCode, sandbox);
 }
-
+*/
 function getGlobal()
 {
 	return (function() { return this; })();

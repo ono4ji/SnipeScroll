@@ -1,6 +1,7 @@
 if( "undefined" == typeof(snipescroll) ){
 
 var snipescroll = {
+	ns: {},
 	initToolbarButton: function(){
 		var cu = document.getElementById("snipescroll-toolbar-button");
 		if(cu){
@@ -90,57 +91,66 @@ var snipescroll = {
 	},
 	
 	scroll: function(event){
+		//Application.console.log("snipescroll");
 		const PANEL_HALF_WIDTH = 24;
 		const PANEL_WIDTH = PANEL_HALF_WIDTH * 2;
 		
-		Components.utils.import('resource://snipescroll-modules/animationManager.js');
-		animationManager.removeAllTasks();
-
-		var panel = document.getElementById("snipescroll-arrow");
-		panel.style.opacity = 1;
-		
-		panel.openPopup(gBrowser, "overlap", event.clientX-PANEL_HALF_WIDTH, event.clientY+PANEL_HALF_WIDTH, false, false);
-		panel.moveTo(event.screenX-PANEL_WIDTH, event.screenY);
+		Components.utils.import('resource://snipescroll-modules/animationManager.js',this.ns);
+		this.ns.animationManager.removeAllTasks();
 
 		var prefs = Components.classes["@mozilla.org/preferences-service;1"]
 		                    .getService(Components.interfaces.nsIPrefService).getBranch("extensions.snipescroll.");
 		var topspan = prefs.getIntPref("topspan");
 
 		var currentHeight = event.pageY - event.clientY;
-		var move = event.clientY - topspan;
 
 		var body = event.originalTarget.ownerDocument.body;
 		var doc = event.originalTarget.ownerDocument.documentElement;
 		var scrollTarget = (doc.scrollHeight != doc.clientHeight) ? doc : body;
-
 		var maxHeight = scrollTarget.scrollHeight - scrollTarget.clientHeight;
-		move = Math.min( move ,maxHeight - currentHeight);
-		move = Math.max( move , 0);
 
-		//Application.console.log("maxHeight " + maxHeight + ",move" + move);
-		//Application.console.log("doc.scrollHeight:" + doc.scrollHeight + ",body.scrollHeight:" +body.scrollHeight);
-		//Application.console.log("doc.clientHeight:" + doc.clientHeight + ",body.clientHeight:" +body.clientHeight);
-		//Application.console.log("currentH:" + currentHeight + ",maxHeight:" +maxHeight+ ",move:" + move);
-		//Application.console.log("zoom:" + gBrowser.mCurrentBrowser.markupDocumentViewer.fullZoom);
-		var zoom = gBrowser.mCurrentBrowser.markupDocumentViewer.fullZoom;
-		
-		var task = function(aTime, aBeginningValue, aTotalChange, aDuration) {
-			var dmove = (aTime / aDuration * aTotalChange);
-			scrollTarget.scrollTop = parseInt(aBeginningValue + dmove);
-			panel.moveTo(event.screenX-PANEL_WIDTH, event.screenY - dmove * zoom );
-			//Application.console.log("scrollTop:" + parseInt(aBeginningValue + dmove) + ",moveTo:" + parseInt(event.screenY - dmove * zoom));
+		//fixscrollとの連携
+		if( FixscrollControl && FixscrollControl.hereToTop && FixscrollControl.isFixScrollModeOn //FixscrooモードON?
+			&& body == gBrowser.selectedBrowser.contentDocument.body){ //browserのボディが対象?
 			
-			if(aTime >= aDuration){
-				snipescroll.hidePopup();
-			}
-			return aTime > aDuration;
-		};
+			var fixMove = event.screenY - parseInt(gBrowser.boxObject.screenY) - topspan;
+			fixMove = Math.min( fixMove ,maxHeight - currentHeight);
+			fixMove = Math.max( fixMove , 0);
+			FixscrollControl.hereToTop(fixMove, event.screenX, event.screenY);
+			
+		}else{
+			var move = event.clientY - topspan;
+			move = Math.min( move ,maxHeight - currentHeight);
+			move = Math.max( move , 0);
+			var panel = document.getElementById("snipescroll-arrow");
+			panel.style.opacity = 1;
+			panel.openPopup(gBrowser, "overlap", event.clientX-PANEL_HALF_WIDTH, event.clientY+PANEL_HALF_WIDTH, false, false);
+			panel.moveTo(event.screenX-PANEL_WIDTH, event.screenY);
 
-		animationManager.addTask(task, currentHeight, move, 250);
+			//Application.console.log("maxHeight " + maxHeight + ",move" + move);
+			//Application.console.log("doc.scrollHeight:" + doc.scrollHeight + ",body.scrollHeight:" +body.scrollHeight);
+			//Application.console.log("doc.clientHeight:" + doc.clientHeight + ",body.clientHeight:" +body.clientHeight);
+			//Application.console.log("currentH:" + currentHeight + ",maxHeight:" +maxHeight+ ",move:" + move);
+			//Application.console.log("zoom:" + gBrowser.mCurrentBrowser.markupDocumentViewer.fullZoom);
+			var zoom = gBrowser.mCurrentBrowser.markupDocumentViewer.fullZoom;
+			
+			var task = function(aTime, aBeginningValue, aTotalChange, aDuration) {
+				var dmove = (aTime / aDuration * aTotalChange);
+				scrollTarget.scrollTop = parseInt(aBeginningValue + dmove);
+				panel.moveTo(event.screenX-PANEL_WIDTH, event.screenY - dmove * zoom );
+				//Application.console.log("scrollTop:" + parseInt(aBeginningValue + dmove) + ",moveTo:" + parseInt(event.screenY - dmove * zoom));
+				
+				if(aTime >= aDuration){
+					snipescroll.hidePopup(250);
+				}
+				return aTime > aDuration;
+			};
+			this.ns.animationManager.addTask(task, currentHeight, move, 250);
+		}
 	},
 	
-	hidePopup: function(){
-		Components.utils.import('resource://snipescroll-modules/animationManager.js');
+	hidePopup: function(duration){
+		Components.utils.import('resource://snipescroll-modules/animationManager.js', this.ns);
 		var panel = document.getElementById("snipescroll-arrow");
 		
 		var task = function(aTime, aBeginningValue, aTotalChange, aDuration) {
@@ -150,7 +160,7 @@ var snipescroll = {
 			}
 			return aTime > aDuration;
 		};
-		animationManager.addTask(task, 1, 1, 250);
+		this.ns.animationManager.addTask(task, 1, 1, duration);
 	},
 	
 };
