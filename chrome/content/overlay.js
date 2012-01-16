@@ -110,7 +110,7 @@ var snipescroll = {
 		var maxHeight = scrollTarget.scrollHeight - scrollTarget.clientHeight;
 
 		//fixscrollとの連携
-		if( FixscrollControl && FixscrollControl.hereToTop && FixscrollControl.isFixScrollModeOn //FixscrooモードON?
+		if( typeof(FixscrollControl) != "undefined" && FixscrollControl.hereToTop && FixscrollControl.isFixScrollModeOn //FixscrooモードON?
 			&& body == gBrowser.selectedBrowser.contentDocument.body){ //browserのボディが対象?
 			
 			var fixMove = event.screenY - parseInt(gBrowser.boxObject.screenY) - topspan;
